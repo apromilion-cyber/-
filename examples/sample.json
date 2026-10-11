@@ -1,0 +1,46 @@
+{
+  "schema_version": "1.0",
+  "request_id": "sample-request-001",
+  "items": [
+    {
+      "id": "sample-country",
+      "kind": "region",
+      "region_id": null,
+      "name": "테스트 국가 (가상)",
+      "local_name": null,
+      "sources": [{"url": "https://example.com/sample-country", "title": "가상 샘플", "accessed_on": "2026-01-01"}],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "level": "country",
+      "parent_region_id": null,
+      "country_code": "JP"
+    },
+    {
+      "id": "sample-city",
+      "kind": "region",
+      "region_id": "sample-country",
+      "name": "샘플 도시 (가상)",
+      "local_name": null,
+      "sources": [{"url": "https://example.com/sample-city", "accessed_on": "2026-01-01"}],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "level": "city",
+      "parent_region_id": "sample-country",
+      "country_code": "JP"
+    },
+    {
+      "kind": "restaurant",
+      "region_id": "sample-city",
+      "name": "샘플 식당 (가상)",
+      "local_name": null,
+      "sources": [{"url": "https://example.com/sample-restaurant", "accessed_on": "2026-01-01"}],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "address": "가상 주소 1",
+      "price": {"amount": "1000", "currency": "JPY", "basis": "1인 1식 (테스트 값)"}
+    }
+  ]
+}

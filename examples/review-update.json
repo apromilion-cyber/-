@@ -1,0 +1,30 @@
+{
+  "schema_version": "1.0",
+  "request_id": "fictional-review-update-001",
+  "action": "update",
+  "reviewer": "가상 검토자",
+  "reason": "예제 형식 설명: 실제 사실과 해시를 확인한 뒤 교체",
+  "target_id": "fictional-restaurant",
+  "expected_hash": "0000000000000000000000000000000000000000000000000000000000000000",
+  "entity": {
+    "id": "fictional-restaurant",
+    "kind": "restaurant",
+    "region_id": "sample-city",
+    "name": "샘플 식당 (가상)",
+    "local_name": null,
+    "sources": [
+      {"url": "https://example.com/sample-restaurant", "accessed_on": "2026-01-01"}
+    ],
+    "researched_on": "2026-01-01",
+    "last_verified_on": "2026-01-01",
+    "verification_status": "verified",
+    "address": "가상 주소 1",
+    "latitude": null,
+    "longitude": null,
+    "signature_food_ids": [],
+    "signature_menus": [],
+    "price": {"amount": "1200", "currency": "JPY", "basis": "1인 1식 (테스트 값)"}
+  },
+  "field_sources": {"price": ["https://example.com/sample-restaurant"]},
+  "distinct_from": []
+}

@@ -1,0 +1,9 @@
+{
+  "schema_version": "1.0",
+  "request_id": "fictional-user-research-001",
+  "category": "음식점",
+  "region_id": "sample-city",
+  "count": 50,
+  "existing_limit": 50,
+  "offset": 0
+}

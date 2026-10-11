@@ -1,0 +1,39 @@
+name: Python checks
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ['3.11', '3.14']
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+      - run: python -m pip install -r requirements.lock
+      - run: python -m pip install --no-deps --no-build-isolation -e .
+      - run: python -m pip check
+      - run: ruff check src tests scripts
+      - run: ruff format --check src tests scripts
+      - run: pytest -q
+      - run: travel-db validate examples/sample.json
+      - run: travel-db validate examples/classification.json
+      - run: travel-db validate-operation examples/review-update.json
+      - run: python -c "import json; from travel_db.research import ResearchRequest; ResearchRequest.model_validate(json.load(open('examples/research-request.json')))"
+      - run: python -m build --no-isolation
+      - run: python scripts/check_distribution.py dist/personal_travel_db-0.1.0-py3-none-any.whl dist/personal_travel_db-0.1.0.tar.gz
+      - name: Install and check the wheel outside the repository
+        run: |
+          python -m pip install --no-deps --target "$RUNNER_TEMP/travel-wheel" dist/personal_travel_db-0.1.0-py3-none-any.whl
+          cd "$RUNNER_TEMP"
+          PYTHONPATH="$RUNNER_TEMP/travel-wheel" python -m travel_db.cli --help
+          PYTHONPATH="$RUNNER_TEMP/travel-wheel" python -m travel_db.cli validate "$GITHUB_WORKSPACE/examples/sample.json"
+          PYTHONPATH="$RUNNER_TEMP/travel-wheel" python -c 'import os, pathlib, travel_db; assert pathlib.Path(travel_db.__file__).is_relative_to(pathlib.Path(os.environ["RUNNER_TEMP"]) / "travel-wheel")'

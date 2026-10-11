@@ -1,0 +1,16 @@
+.venv/
+.local/
+__pycache__/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+build/
+dist/
+.env
+.env.*
+!.env.example
+credentials*.json
+service-account*.json
+*backup*.json
+*.lock
+!requirements.lock
