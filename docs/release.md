@@ -28,10 +28,18 @@ sdist는 MANIFEST.in의 명시적인 파일 목록만 포함합니다. 공개 �
 
 ## GitHub 반영과 CI
 
-현재 작업 파일을 검토한 뒤 GitHub에 반영하면 .github/workflows/tests.yml이 Python 3.11/3.14에서 고정 버전 설치, 린트/형식, pytest, 입력 계약, sdist/wheel 빌드·검사와 설치된 wheel의 CLI 검사를 실행합니다. CI에는 Google 인증을 전달하지 않으며 실제 시트를 수정하지 않습니다.
+작업 파일을 검토한 뒤 GitHub에 반영하면 .github/workflows/tests.yml이 Python 3.11/3.14에서 고정 버전 설치, 린트/형식, pytest, 입력 계약, sdist/wheel 빌드·검사와 설치된 wheel의 CLI 검사를 실행합니다. CI에는 Google 인증을 전달하지 않으며 실제 시트를 수정하지 않습니다.
 
 원격 CI 성공은 반영한 정확한 커밋의 결과로 확인해야 합니다. 로컬 검사 성공을 원격 CI 성공으로 보고하지 않습니다. 원격 반영 전 검토용 파일 목록은 MANIFEST.in과 git status에서 확인합니다. 빌드 산출물은 dist/에 만들며 .gitignore로 제외합니다. 원본 DB는 계속 Google Sheets이고 wheel/sdist는 데이터 백업이 아닙니다.
 
 검사 결과와 실행 여부는 [검증 기록](verification.md)에 기록합니다.
 
-2026-10-11 로컬 결과: 저장소 및 별도 sdist에서 pytest 각각 260개 통과, wheel/sdist 내용 검사와 별도 경로에 설치한 CLI 검사 통과. 고정 의존성도 기존 가상환경과 분리하여 재설치했습니다. 로컬 Python은 3.14.2이며 Python 3.11/원격 CI, 커밋·푸시는 아직 미실행입니다. 실제 Google API를 호출하거나 마스터를 수정하지 않았습니다.
+2026-10-11 로컬 결과: 저장소 및 별도 sdist에서 pytest 각각 260개 통과, wheel/sdist 내용 검사와 별도 경로에 설치한 CLI 검사 통과. 고정 의존성도 기존 가상환경과 분리하여 재설치했습니다. 로컬 Python은 3.14.2입니다. 실제 Google API를 호출하거나 마스터를 수정하지 않았습니다.
+
+## 7단계 GitHub 반영 결과
+
+공개 저장소 apromilion-cyber/-의 codex/travel-db-initial 브랜치에 검토한 51개 파일을 커밋·푸시했습니다. 개인 마스터/테스트 파일 식별자가 들어 있던 안내는 .local/deployment-docs-before-publication/에 보존하고 Git/배포 목록에서 제외했습니다. 공개 안내는 본인 시트 ID와 Codespaces Secrets를 기준으로 설정합니다. 실제 Google 문서 파일 URL도 배포 검사에서 거부합니다.
+
+첫 코드 커밋 f15a399379fbd71411e8a10861d67b91e744ba9c의 [원격 CI](https://github.com/apromilion-cyber/-/actions/runs/38117838575)가 Python 3.11/3.14 모두 통과했습니다. 고정 설치·pip check·린트/형식·pytest·예제 계약·배포 빌드/검사·저장소 밖 wheel 설치/CLI 단계를 확인했습니다.
+
+[초안 PR #1](https://github.com/apromilion-cyber/-/pull/1)에서 검토할 수 있습니다. main 병합·릴리스 발행은 별도 사용자 지시로 실행합니다. 후속 커밋의 최신 CI는 PR Checks의 head SHA로 확인합니다. 이 단계에서 Google Sheets API를 호출하거나 마스터를 수정하지 않았습니다.

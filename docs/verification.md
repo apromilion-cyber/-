@@ -122,3 +122,13 @@ build --no-isolation로 sdist를 만들고 그 sdist로 wheel을 빌드했습니
 GitHub Actions에 고정 버전 설치·pip check, scripts 린트/형식, 빌드/아카이브 검사 및 저장소 밖 wheel 설치/CLI 검사를 추가했습니다. **커밋/푸시와 원격 CI 실행은 아직 하지 않았으며 Python 3.11은 이번 로컬 환경에서 실행하지 않았습니다.** CI의 Python 3.11/3.14 구성과 실제 통과 결과를 구분합니다. GitHub/PyPI 공개 배포는 실행하지 않았습니다.
 
 이 단계는 Google 인증을 사용하지 않고 실제 Google API를 호출하지 않았습니다. 마스터/테스트 Sheets 수정도 없습니다. 이전 단계의 대량 API/동시 편집 미검증 범위는 유지합니다. [배포 문서](release.md)에 설치·검사·GitHub 반영 순서를 정리했습니다.
+
+## 7단계: GitHub 반영과 원격 CI
+
+공개 저장소임을 확인한 후 문서의 개인 마스터/테스트 시트 ID·링크를 본인 설정을 참조하는 안내로 바꿨습니다. 기존 안내 4개는 권한 0600의 .local/deployment-docs-before-publication/에 백업하고 Git/배포에서 제외했습니다. Google 문서 파일 URL도 공개 배포 검사에서 거부합니다. 키/토큰/여행 데이터·개인 설정·백업을 커밋하지 않았습니다.
+
+로컬 pytest **260개**와 Ruff 린트/형식, staged diff 공백, 공개 배포 파일 검사를 통과한 51개 파일을 별도 브랜치 codex/travel-db-initial에 커밋·푸시했습니다. 작성자/커미터 이메일은 GitHub noreply 형식입니다. 초기 코드 커밋은 f15a399379fbd71411e8a10861d67b91e744ba9c입니다. 최초 제한 네트워크 GitHub 조회/푸시 실패 후 승인된 접근으로 완료했습니다.
+
+[원격 실행 #1](https://github.com/apromilion-cyber/-/actions/runs/38117838575), head SHA f15a399379fbd71411e8a10861d67b91e744ba9c: **tests (3.11), tests (3.14) 모두 success**. 각 작업의 고정 버전 설치·pip check·린트/형식·pytest·가상 예제 검증·빌드·아카이브 검사·저장소 밖 wheel 설치/CLI 단계가 모두 성공임을 API로 확인했습니다. 6단계까지 미확인이던 Python 3.11과 원격 CI 검증을 완료했습니다.
+
+연결된 GitHub 앱의 PR 생성은 권한 403으로 실패했고, 인증된 GitHub CLI로 [초안 PR #1](https://github.com/apromilion-cyber/-/pull/1)을 생성했습니다. main 병합과 릴리스 발행은 실행하지 않았습니다. 후속 문서 커밋의 CI는 최신 PR head SHA와 각 실행 결과로 확인합니다. 이번 단계의 실제 Google API 호출/DB 변경은 없으며 대량 API/동시 편집 미검증 범위는 유지합니다.
