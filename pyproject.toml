@@ -1,0 +1,34 @@
+[build-system]
+requires = ["setuptools>=77"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "personal-travel-db"
+version = "0.1.0"
+description = "Google Sheets as the single source for personal travel research"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = ["pydantic>=2.12,<3", "google-auth>=2.40,<3", "requests>=2.32,<3", "pycountry>=24.6,<27"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.12,<1", "build>=1.2,<2", "setuptools>=77"]
+
+[project.scripts]
+travel-db = "travel_db.cli:main"
+
+[tool.setuptools]
+include-package-data = false
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["src"]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B"]

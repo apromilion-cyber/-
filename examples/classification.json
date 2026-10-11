@@ -1,0 +1,118 @@
+{
+  "schema_version": "1.1",
+  "request_id": "sample-classification-001",
+  "items": [
+    {
+      "id": "sample-country",
+      "kind": "region",
+      "region_id": null,
+      "name": "테스트 국가 (가상)",
+      "local_name": null,
+      "sources": [
+        {
+          "url": "https://example.com/sample-country",
+          "title": "가상 샘플",
+          "accessed_on": "2026-01-01"
+        }
+      ],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "level": "country",
+      "parent_region_id": null,
+      "country_code": "JP",
+      "aliases": [
+        "Sample Country"
+      ]
+    },
+    {
+      "id": "sample-city",
+      "kind": "region",
+      "region_id": "sample-country",
+      "name": "샘플 도시 (가상)",
+      "local_name": null,
+      "sources": [
+        {
+          "url": "https://example.com/sample-city",
+          "accessed_on": "2026-01-01"
+        }
+      ],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "level": "city",
+      "parent_region_id": "sample-country",
+      "country_code": "JP",
+      "aliases": [
+        "Sample City",
+        "サンプル市"
+      ]
+    },
+    {
+      "name": "Sample Bistro (가상)",
+      "local_name": null,
+      "sources": [
+        {
+          "url": "https://example.com/sample-restaurant",
+          "accessed_on": "2026-01-01"
+        }
+      ],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "address": "가상 주소 1",
+      "price": {
+        "amount": "1000",
+        "currency": "JPY",
+        "basis": "1인 1식 (테스트 값)"
+      },
+      "category": "음식점",
+      "country": "JP",
+      "city": "Sample City"
+    },
+    {
+      "name": "Sample Bistr0 (가상)",
+      "local_name": null,
+      "sources": [
+        {
+          "url": "https://example.com/sample-restaurant",
+          "accessed_on": "2026-01-01"
+        }
+      ],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "address": "가상 주소 1",
+      "price": {
+        "amount": "1000",
+        "currency": "JPY",
+        "basis": "1인 1식 (테스트 값)"
+      },
+      "category": "음식점",
+      "country": "JP",
+      "city": "Sample City"
+    },
+    {
+      "name": "Unknown City Cafe (가상)",
+      "local_name": null,
+      "sources": [
+        {
+          "url": "https://example.com/sample-restaurant",
+          "accessed_on": "2026-01-01"
+        }
+      ],
+      "researched_on": "2026-01-01",
+      "last_verified_on": "2026-01-01",
+      "verification_status": "verified",
+      "address": "가상 주소 1",
+      "price": {
+        "amount": "1000",
+        "currency": "JPY",
+        "basis": "1인 1식 (테스트 값)"
+      },
+      "category": "카페",
+      "country": "JP",
+      "city": "Never registered city"
+    }
+  ]
+}

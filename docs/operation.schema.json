@@ -1,0 +1,1655 @@
+{
+  "$defs": {
+    "Approve": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "action": {
+          "const": "approve",
+          "title": "Action",
+          "type": "string"
+        },
+        "queue_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Queue Id",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "create",
+            "update"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "entity": {
+          "discriminator": {
+            "mapping": {
+              "budget": "#/$defs/Budget",
+              "experience": "#/$defs/Experience",
+              "food": "#/$defs/Food",
+              "rating": "#/$defs/Rating",
+              "region": "#/$defs/Region",
+              "restaurant": "#/$defs/Restaurant",
+              "transport": "#/$defs/Transport"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "$ref": "#/$defs/Food"
+            },
+            {
+              "$ref": "#/$defs/Restaurant"
+            },
+            {
+              "$ref": "#/$defs/Experience"
+            },
+            {
+              "$ref": "#/$defs/Transport"
+            },
+            {
+              "$ref": "#/$defs/Budget"
+            },
+            {
+              "$ref": "#/$defs/Rating"
+            }
+          ],
+          "title": "Entity"
+        },
+        "target_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Id"
+        },
+        "expected_hash": {
+          "anyOf": [
+            {
+              "pattern": "^[a-f0-9]{64}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Hash"
+        },
+        "field_sources": {
+          "additionalProperties": {
+            "items": {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 30,
+            "type": "array"
+          },
+          "propertyNames": {
+            "maxLength": 2000,
+            "minLength": 1
+          },
+          "title": "Field Sources",
+          "type": "object"
+        },
+        "distinct_from": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Distinct From",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "reviewer",
+        "reason",
+        "action",
+        "queue_id",
+        "mode",
+        "entity"
+      ],
+      "title": "Approve",
+      "type": "object"
+    },
+    "Budget": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "kind": {
+          "const": "budget",
+          "title": "Kind",
+          "type": "string"
+        },
+        "budget_type": {
+          "enum": [
+            "lodging",
+            "transport",
+            "food",
+            "trip_total"
+          ],
+          "title": "Budget Type",
+          "type": "string"
+        },
+        "price": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Price"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "duration_days": {
+          "anyOf": [
+            {
+              "maximum": 3650,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Duration Days"
+        },
+        "people": {
+          "anyOf": [
+            {
+              "maximum": 10000,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "People"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "budget_type"
+      ],
+      "title": "Budget",
+      "type": "object"
+    },
+    "Evidence": {
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "format": "uri",
+          "maxLength": 2083,
+          "minLength": 1,
+          "title": "Url",
+          "type": "string"
+        },
+        "title": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Title"
+        },
+        "publisher": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Publisher"
+        },
+        "accessed_on": {
+          "format": "date",
+          "title": "Accessed On",
+          "type": "string"
+        }
+      },
+      "required": [
+        "url",
+        "accessed_on"
+      ],
+      "title": "Evidence",
+      "type": "object"
+    },
+    "Experience": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "latitude": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latitude"
+        },
+        "longitude": {
+          "anyOf": [
+            {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Longitude"
+        },
+        "price": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Price"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "experience",
+          "title": "Kind",
+          "type": "string"
+        },
+        "experience_type": {
+          "enum": [
+            "attraction",
+            "cafe",
+            "activity",
+            "shopping",
+            "nature"
+          ],
+          "title": "Experience Type",
+          "type": "string"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "experience_type"
+      ],
+      "title": "Experience",
+      "type": "object"
+    },
+    "Food": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "kind": {
+          "const": "food",
+          "title": "Kind",
+          "type": "string"
+        },
+        "food_type": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Food Type",
+          "type": "string"
+        },
+        "ingredients": {
+          "items": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Ingredients",
+          "type": "array"
+        },
+        "features": {
+          "items": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Features",
+          "type": "array"
+        },
+        "representative_region_ids": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Representative Region Ids",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "food_type"
+      ],
+      "title": "Food",
+      "type": "object"
+    },
+    "Price": {
+      "additionalProperties": false,
+      "properties": {
+        "amount": {
+          "anyOf": [
+            {
+              "minimum": 0.0,
+              "type": "number"
+            },
+            {
+              "type": "string"
+            }
+          ],
+          "title": "Amount"
+        },
+        "currency": {
+          "title": "Currency",
+          "type": "string"
+        },
+        "basis": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Basis",
+          "type": "string"
+        }
+      },
+      "required": [
+        "amount",
+        "currency",
+        "basis"
+      ],
+      "title": "Price",
+      "type": "object"
+    },
+    "Rating": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "kind": {
+          "const": "rating",
+          "title": "Kind",
+          "type": "string"
+        },
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target Id",
+          "type": "string"
+        },
+        "taste_fit": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Taste Fit"
+        },
+        "visited": {
+          "title": "Visited",
+          "type": "boolean"
+        },
+        "satisfaction": {
+          "anyOf": [
+            {
+              "maximum": 5,
+              "minimum": 1,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Satisfaction"
+        },
+        "notes": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Notes"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "target_id",
+        "visited"
+      ],
+      "title": "Rating",
+      "type": "object"
+    },
+    "Region": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "kind": {
+          "const": "region",
+          "title": "Kind",
+          "type": "string"
+        },
+        "level": {
+          "enum": [
+            "country",
+            "macro_region",
+            "administrative_area",
+            "city",
+            "neighborhood"
+          ],
+          "title": "Level",
+          "type": "string"
+        },
+        "parent_region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Parent Region Id"
+        },
+        "country_code": {
+          "title": "Country Code",
+          "type": "string"
+        },
+        "aliases": {
+          "items": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Aliases",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "level",
+        "parent_region_id",
+        "country_code"
+      ],
+      "title": "Region",
+      "type": "object"
+    },
+    "Reject": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "action": {
+          "const": "reject",
+          "title": "Action",
+          "type": "string"
+        },
+        "queue_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Queue Id",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "reviewer",
+        "reason",
+        "action",
+        "queue_id"
+      ],
+      "title": "Reject",
+      "type": "object"
+    },
+    "Restaurant": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "latitude": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latitude"
+        },
+        "longitude": {
+          "anyOf": [
+            {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Longitude"
+        },
+        "price": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Price"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "restaurant",
+          "title": "Kind",
+          "type": "string"
+        },
+        "signature_food_ids": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "title": "Signature Food Ids",
+          "type": "array"
+        },
+        "signature_menus": {
+          "items": {
+            "maxLength": 2000,
+            "minLength": 1,
+            "type": "string"
+          },
+          "title": "Signature Menus",
+          "type": "array"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind"
+      ],
+      "title": "Restaurant",
+      "type": "object"
+    },
+    "Restore": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "action": {
+          "const": "restore",
+          "title": "Action",
+          "type": "string"
+        },
+        "history_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "History Id",
+          "type": "string"
+        },
+        "expected_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected Hash",
+          "type": "string"
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "reviewer",
+        "reason",
+        "action",
+        "history_id",
+        "expected_hash"
+      ],
+      "title": "Restore",
+      "type": "object"
+    },
+    "Transport": {
+      "additionalProperties": false,
+      "properties": {
+        "id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Id"
+        },
+        "region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Region Id"
+        },
+        "name": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Name",
+          "type": "string"
+        },
+        "local_name": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Local Name"
+        },
+        "sources": {
+          "items": {
+            "$ref": "#/$defs/Evidence"
+          },
+          "maxItems": 30,
+          "title": "Sources",
+          "type": "array"
+        },
+        "researched_on": {
+          "format": "date",
+          "title": "Researched On",
+          "type": "string"
+        },
+        "last_verified_on": {
+          "anyOf": [
+            {
+              "format": "date",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "title": "Last Verified On"
+        },
+        "verification_status": {
+          "enum": [
+            "verified",
+            "unverified",
+            "disputed"
+          ],
+          "title": "Verification Status",
+          "type": "string"
+        },
+        "address": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Address"
+        },
+        "latitude": {
+          "anyOf": [
+            {
+              "maximum": 90,
+              "minimum": -90,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Latitude"
+        },
+        "longitude": {
+          "anyOf": [
+            {
+              "maximum": 180,
+              "minimum": -180,
+              "type": "number"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Longitude"
+        },
+        "price": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/Price"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "kind": {
+          "const": "transport",
+          "title": "Kind",
+          "type": "string"
+        },
+        "transport_type": {
+          "enum": [
+            "airport",
+            "train_station",
+            "subway_station",
+            "route"
+          ],
+          "title": "Transport Type",
+          "type": "string"
+        },
+        "origin_region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Origin Region Id"
+        },
+        "destination_region_id": {
+          "anyOf": [
+            {
+              "maxLength": 128,
+              "minLength": 1,
+              "pattern": "^[A-Za-z0-9_-]+$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Destination Region Id"
+        },
+        "accessibility": {
+          "anyOf": [
+            {
+              "maxLength": 2000,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Accessibility"
+        }
+      },
+      "required": [
+        "region_id",
+        "name",
+        "local_name",
+        "sources",
+        "researched_on",
+        "last_verified_on",
+        "verification_status",
+        "kind",
+        "transport_type"
+      ],
+      "title": "Transport",
+      "type": "object"
+    },
+    "Update": {
+      "additionalProperties": false,
+      "properties": {
+        "schema_version": {
+          "const": "1.0",
+          "title": "Schema Version",
+          "type": "string"
+        },
+        "request_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Request Id",
+          "type": "string"
+        },
+        "reviewer": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reviewer",
+          "type": "string"
+        },
+        "reason": {
+          "maxLength": 2000,
+          "minLength": 1,
+          "title": "Reason",
+          "type": "string"
+        },
+        "action": {
+          "const": "update",
+          "title": "Action",
+          "type": "string"
+        },
+        "target_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "pattern": "^[A-Za-z0-9_-]+$",
+          "title": "Target Id",
+          "type": "string"
+        },
+        "expected_hash": {
+          "pattern": "^[a-f0-9]{64}$",
+          "title": "Expected Hash",
+          "type": "string"
+        },
+        "entity": {
+          "discriminator": {
+            "mapping": {
+              "budget": "#/$defs/Budget",
+              "experience": "#/$defs/Experience",
+              "food": "#/$defs/Food",
+              "rating": "#/$defs/Rating",
+              "region": "#/$defs/Region",
+              "restaurant": "#/$defs/Restaurant",
+              "transport": "#/$defs/Transport"
+            },
+            "propertyName": "kind"
+          },
+          "oneOf": [
+            {
+              "$ref": "#/$defs/Region"
+            },
+            {
+              "$ref": "#/$defs/Food"
+            },
+            {
+              "$ref": "#/$defs/Restaurant"
+            },
+            {
+              "$ref": "#/$defs/Experience"
+            },
+            {
+              "$ref": "#/$defs/Transport"
+            },
+            {
+              "$ref": "#/$defs/Budget"
+            },
+            {
+              "$ref": "#/$defs/Rating"
+            }
+          ],
+          "title": "Entity"
+        },
+        "field_sources": {
+          "additionalProperties": {
+            "items": {
+              "format": "uri",
+              "maxLength": 2083,
+              "minLength": 1,
+              "type": "string"
+            },
+            "maxItems": 30,
+            "type": "array"
+          },
+          "propertyNames": {
+            "maxLength": 2000,
+            "minLength": 1
+          },
+          "title": "Field Sources",
+          "type": "object"
+        },
+        "distinct_from": {
+          "items": {
+            "maxLength": 128,
+            "minLength": 1,
+            "pattern": "^[A-Za-z0-9_-]+$",
+            "type": "string"
+          },
+          "maxItems": 500,
+          "title": "Distinct From",
+          "type": "array"
+        }
+      },
+      "required": [
+        "schema_version",
+        "request_id",
+        "reviewer",
+        "reason",
+        "action",
+        "target_id",
+        "expected_hash",
+        "entity"
+      ],
+      "title": "Update",
+      "type": "object"
+    }
+  },
+  "discriminator": {
+    "mapping": {
+      "approve": "#/$defs/Approve",
+      "reject": "#/$defs/Reject",
+      "restore": "#/$defs/Restore",
+      "update": "#/$defs/Update"
+    },
+    "propertyName": "action"
+  },
+  "oneOf": [
+    {
+      "$ref": "#/$defs/Approve"
+    },
+    {
+      "$ref": "#/$defs/Reject"
+    },
+    {
+      "$ref": "#/$defs/Update"
+    },
+    {
+      "$ref": "#/$defs/Restore"
+    }
+  ]
+}
